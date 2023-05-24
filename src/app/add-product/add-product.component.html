@@ -1,0 +1,79 @@
+<div class="my-3 border border-3 p-4 mb-3">
+    <form (ngSubmit)="onSubmit();productForm.reset()" #productForm="ngForm">
+        <div class="mb-3">
+            <label for="name" class="form-label">Product name</label>
+            <input type="text" required #validName="ngModel" class="form-control"  id="name" [(ngModel)]="name" name="name" placeholder="Add product name">
+            <div *ngIf="validName.invalid && (validName.dirty || validName.touched)" class="text-danger">
+                Please enter product name
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Product price</label>
+            <input type="number" min="1" required #validPrice="ngModel" class="form-control"  id="price" [(ngModel)]="price" name="price" placeholder="Add product price" />
+            <div *ngIf="validPrice.invalid && (validPrice.dirty || validPrice.touched)" class="text-danger">
+                <div *ngIf="validPrice.errors?.['required']">
+                    Please enter price
+                </div>
+                <div *ngIf="validPrice.errors?.['min']">
+                    Please enter value greater than 0
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Product quantity</label>
+            <input type="number" min="1" max="500" required #validQuantity="ngModel" class="form-control" id="quantity" [(ngModel)]="quantity" name="quantity" placeholder="Add quantity">
+            <div *ngIf="validQuantity.invalid && (validQuantity.touched || validQuantity.dirty)" class="text-danger">
+                <div *ngIf="validQuantity.errors?.['required']">
+                    Please enter quantity
+                </div>
+                <div *ngIf="validQuantity.errors?.['min']">
+                    Please enter value greater than 0
+                </div>
+                <div *ngIf="validQuantity.errors?.['max']">
+                    Please enter value less than or equal to 500
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="manDate">Manufactured date</label>
+            <input type="date" max="{{date | date:'yyyy-MM-dd'}}" #validManDate="ngModel" required [(ngModel)]="manDate" class="form-control" id="manDate" name="manDate">
+            <div *ngIf="validManDate.invalid && (validManDate.touched || validManDate.dirty)" class="text-danger">
+                <div *ngIf="validManDate.errors?.['required']">
+                    Please Enter Manufacture Date
+                </div>
+                <div *ngIf="validManDate.errors?.['max']">
+                    Please Enter Manufacture Date
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="expDate">Expiry date</label>
+            <input type="date" min="{{date | date:'yyyy-MM-dd'}}" #validExpDate="ngModel" required [(ngModel)]="expDate" class="form-control" id="expDate" name="expDate">
+            <div *ngIf="validExpDate.invalid && (validExpDate.touched || validExpDate.dirty)" class="text-danger">
+                <div *ngIf="validExpDate.errors?.['required']">
+                    Please Enter Expiry Date
+                </div>
+                <div *ngIf="validExpDate.errors?.['min']">
+                    Please Enter Expiry Date
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="new" class="me-2">Product freshness:</label>
+            <input type="radio" class="me-0" name="freshness" id="new" value="Brand New" [(ngModel)]="freshness" checked>
+            <label for="new" class="me-2">Brand new</label>
+            <input type="radio" class="me-0" name="freshness" id="second" value="Second Hand" [(ngModel)]="freshness">
+            <label for="second" >Second Hand</label>
+            
+        </div>
+        <div class="mb-3">
+            <input type="checkbox" class="me-2" name="available" id="available" [(ngModel)]="available">
+            <label for="available" >Available</label>
+        </div>
+        
+        
+        <div class="mb-3">
+            <button type="submit" class="btn btn-sm btn-primary" [disabled]="!productForm.form.valid" id="btn-add">Add Product</button>
+        </div>
+    </form>
+</div>

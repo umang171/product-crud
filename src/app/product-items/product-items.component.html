@@ -1,0 +1,52 @@
+<div *ngFor="let product of products; let i=index" class="border p-2 m-2">
+    <h3>Product {{i+1}}: {{product.name}}</h3>
+    <!-- Edit Form -->
+    <form *ngIf="isEdit && product.isEditing" (submit)="saveProduct(product,i)">
+      <div class="mb-3">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" [(ngModel)]="product.name" required>
+      </div>
+      <div class="mb-3">
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" [(ngModel)]="product.price" required>
+      </div>
+      <div class="mb-3">
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" [(ngModel)]="product.quantity" required>
+      </div>
+      <div class="mb-3">
+        <label for="manufactureDate">Manufacture Date:</label>
+        <input type="date" id="manufactureDate" name="manufactureDate" [(ngModel)]="product.manufactureDate" required>
+      </div>
+      <div class="mb-3">
+        <label for="expireDate">Expire Date:</label>
+        <input type="date" id="expireDate" name="expireDate" [(ngModel)]="product.expireDate" required>
+      </div>
+      <div class="mb-3">
+        <label for="available">Available:</label>
+        <input type="checkbox" class="me-2" name="available" id="available" [(ngModel)]="product.available">
+      </div>
+      <div class="mb-3">
+        <label for="freshness">Freshness:</label>
+        <input type="radio" class="me-0" name="freshness" id="new" value="Brand New" [(ngModel)]="product.freshness">
+            <label for="new" class="me-2">Brand new</label>
+            <input type="radio" class="me-0" name="freshness" id="second" value="Second Hand" [(ngModel)]="product.freshness">
+            <label for="second" >Second Hand</label>
+      </div>
+      <button type="submit" class="btn btn-sm me-2 btn-warning">Save</button>
+      <button type="button" class="btn btn-sm btn-secondary" (click)="cancelEdit(product)">Cancel</button>
+    </form>
+    
+    <!-- Display Details -->
+    <div *ngIf="!isEdit || !product.isEditing">
+      <p>Available: <span class="ms-1 rounded-circle px-2" [ngStyle]="{'background-color': product.available ? 'green' : 'red'}"></span></p>
+      <p>Price: {{product.price | currency}}</p>
+      <p>Quantity: {{product.quantity}}</p>
+      <p>Manufacture Date: {{product.manufactureDate}}</p>
+      <p>Expire Date: {{product.expireDate}}</p>
+      <p>Freshness: {{product.freshness}}</p>
+      <button (click)="toggleEdit(product)" class="btn btn-sm btn-warning me-2 px-3">Edit</button>
+      <button class="btn btn-sm btn-danger" (click)="onDelete(product)">Delete</button>
+    </div>
+  </div>
+  

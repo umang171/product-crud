@@ -1,0 +1,7 @@
+<div class="container mt-3">
+    <h1>Add Product</h1>
+    <app-add-product (addProduct)="productAdd($event)"></app-add-product>
+    <h1>Product List</h1>
+    <hr>
+    <app-product-items [products]="products" (deleteProduct)="productDelete($event)"></app-product-items>
+</div>
