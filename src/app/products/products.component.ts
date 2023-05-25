@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Product } from '../model/product';
+import {Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -9,7 +10,11 @@ import { Product } from '../model/product';
 export class ProductsComponent {
   localItem:string|null;
   products :Product[];
-  constructor(){
+  isEdit:boolean=false;
+  editproduct!:Product;
+  editIndex!:number;
+  constructor(private activatedRoute: ActivatedRoute){  
+    
     this.localItem=localStorage.getItem("products");
     this.products=[];
     if (this.localItem == null) {
@@ -28,6 +33,15 @@ export class ProductsComponent {
       this.products = JSON.parse(this.localItem);
     }
   }  
+  
+ngOnInit() {
+  this.isEdit=(this.activatedRoute.snapshot.paramMap.get('name')!=null);
+  if(this.isEdit)
+  {
+    this.editproduct=this.products.filter((prod:Product)=>prod.name==this.activatedRoute.snapshot.paramMap.get('name'))[0];
+    this.editIndex=this.products.indexOf(this.editproduct);
+  }
+}
   productAdd(product:Product){
     this.products.push(product);
     localStorage.setItem("products",JSON.stringify(this.products));

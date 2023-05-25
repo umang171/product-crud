@@ -1,3 +1,5 @@
+<h1>{{isEdit?"Update":"Add"}} Product</h1>
+<h1></h1>
 <div class="my-3 border border-3 p-4 mb-3">
     <form (ngSubmit)="onSubmit();productForm.reset()" #productForm="ngForm">
         <div class="mb-3">
@@ -73,7 +75,7 @@
         
         
         <div class="mb-3">
-            <button type="submit" class="btn btn-sm btn-primary" [disabled]="!productForm.form.valid" id="btn-add">Add Product</button>
+            <button type="submit" class="btn btn-sm btn-primary" [disabled]="!productForm.form.valid" id="btn-add">{{isEdit?"Update":"Add"}} Product</button>
         </div>
     </form>
 </div>
