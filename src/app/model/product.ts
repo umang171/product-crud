@@ -6,6 +6,7 @@ export interface Product {
     expireDate: string;
     available: boolean;
     freshness: string;
+    category?:string;
     isEditing?: boolean;
   }
   

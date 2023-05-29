@@ -109,7 +109,7 @@
           *ngIf="validManDate.errors?.['max']"
           class="mui-error"
         >
-          Please enter Manufacture Date
+          Please enter valid Manufacture Date 
         </mat-error>
       </mat-form-field>
     </div>
@@ -135,9 +135,25 @@
           *ngIf="validExpDate.errors?.['min']"
           class="mui-error"
         >
-          Please enter Expiry Date
+          Please enter valid Expiry Date
         </mat-error>
       </mat-form-field>
+    </div>
+    <div class="mb-3">
+        <mat-form-field>
+            <mat-label>Category</mat-label>
+            <mat-select required name="category" [(ngModel)]="category" #validCategory="ngModel">
+              <mat-option value="Electronic">Electronic</mat-option>
+              <mat-option value="Stationary">Stationary</mat-option>
+            </mat-select>
+            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+            <mat-error
+            *ngIf="validCategory.invalid && (validCategory.dirty || validCategory.touched)"
+            class="mui-error"
+            >
+            Please Select Category
+        </mat-error>
+    </mat-form-field>
     </div>
     <div class="mb-3">
       <mat-radio-group class="mui-radio-group" name="freshness" [(ngModel)]="freshness">

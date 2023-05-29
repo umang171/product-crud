@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Product } from '../model/product';
+import { ProductService } from '../product-service/product-service.service';
 
 @Component({
   selector: 'app-product-item-view',
@@ -11,12 +12,12 @@ import { Product } from '../model/product';
 })
 export class ProductItemViewComponent implements OnInit,AfterViewInit {
   dataSource: MatTableDataSource<Product>;
-  displayedColumns: string[] = ['name', 'price', 'quantity', 'manufactureDate', 'expireDate', 'available', 'freshness','actions'];
+  displayedColumns: string[] = ['name', 'price', 'quantity', 'manufactureDate', 'expireDate','category', 'available', 'freshness','actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {
+  constructor(private productService:ProductService) {
     this.dataSource = new MatTableDataSource<Product>([]);
   }
 
@@ -25,8 +26,8 @@ export class ProductItemViewComponent implements OnInit,AfterViewInit {
   }
 
   loadProducts(): void {
-    const localItem: string | null = localStorage.getItem("products");
-    if (localItem == null) {
+    const localItem: string | null = this.productService.getProducts();
+    if (localItem == null||localItem=='{}') {
       this.dataSource.data = [
         {
           name: "Watch",
@@ -36,12 +37,13 @@ export class ProductItemViewComponent implements OnInit,AfterViewInit {
           expireDate: '23-05-2024',
           available: true,
           freshness: "Brand New",
+          category: "Electronic",
         }
       ];
     } else {
       this.dataSource.data = JSON.parse(localItem);
     }
-   
+    
   }
 
   applyFilter(filterValue: string): void {
@@ -57,9 +59,8 @@ export class ProductItemViewComponent implements OnInit,AfterViewInit {
   }
   deleteProduct(product:Product){
     if(confirm("Are you sure you want to delete!")){
-      const index=this.dataSource.data.indexOf(product);
-      this.dataSource.data.splice(index,1);
-      localStorage.setItem("products",JSON.stringify(this.dataSource.data));
+     
+      localStorage.setItem("products",JSON.stringify(this.productService.deleteProduct(product)));
       this.loadProducts();
     }
   }

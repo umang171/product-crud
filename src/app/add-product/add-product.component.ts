@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Product } from '../model/product';
 import { Router } from '@angular/router';
+import { ProductService } from '../product-service/product-service.service';
 
 @Component({
   selector: 'app-add-product',
@@ -17,16 +18,18 @@ export class AddProductComponent implements OnInit {
   expDate!:string;
   available!:boolean;
   freshness!:string;
+  category!:string;
   date = new Date().toISOString().slice(0, 10);
   @Output()
   addProduct:EventEmitter<Product>=new EventEmitter();
 
-  constructor(private router: Router){
+  constructor(private router: Router,private produtService:ProductService){
   }
   ngOnInit(): void {
     console.log(this.editIndex,"val");
     if(this.isEdit){
       let product:Product=JSON.parse(localStorage.getItem("products")||"")[this.editIndex];
+      console.log(product,"jslf");
       this.name=product.name;
       this.price=product.price;
       this.quantity=product.quantity;
@@ -34,6 +37,8 @@ export class AddProductComponent implements OnInit {
       this.manDate=product.manufactureDate;
       this.available=product.available;
       this.freshness=product.freshness;
+      this.category=product.category||"";
+      
     }
   }
 
@@ -46,11 +51,10 @@ export class AddProductComponent implements OnInit {
       expireDate:this.expDate,
       available:this.available,
       freshness:this.freshness,
+      category:this.category,
     }
     if(this.isEdit){
-      let localItems=JSON.parse(localStorage.getItem("products")||"");
-      localItems[this.editIndex]=product;
-      localStorage.setItem("products",JSON.stringify(localItems));
+      this.produtService.editProduct(product,this.editIndex);
       alert("Product is updated");
     }
     else{

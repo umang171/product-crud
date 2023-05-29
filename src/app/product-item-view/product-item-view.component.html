@@ -40,6 +40,11 @@
   </ng-container>
 
   <!-- Available Column -->
+  <ng-container matColumnDef="category">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+    <td mat-cell *matCellDef="let product"> {{ product.category }} </td>
+  </ng-container>
+
   <ng-container matColumnDef="available">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Available </th>
     <td mat-cell *matCellDef="let product"> {{ product.available?'Yes':'NO' }} </td>
