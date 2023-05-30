@@ -4,21 +4,48 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Product } from '../model/product';
 import { ProductService } from '../product-service/product-service.service';
+import { TableDefination } from '../model/tabledefination';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-item-view',
   templateUrl: './product-item-view.component.html',
   styleUrls: ['./product-item-view.component.css']
 })
-export class ProductItemViewComponent implements OnInit,AfterViewInit {
-  dataSource: MatTableDataSource<Product>;
+export class ProductItemViewComponent implements OnInit {
+  dataSource: MatTableDataSource<object>;
   displayedColumns: string[] = ['name', 'price', 'quantity', 'manufactureDate', 'expireDate','category', 'available', 'freshness','actions'];
-
+  tableDefination:TableDefination;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private productService:ProductService) {
-    this.dataSource = new MatTableDataSource<Product>([]);
+  constructor(private router: Router,private productService:ProductService) {
+    this.dataSource = new MatTableDataSource<object>([]);
+    
+    this.tableDefination={
+      dataSource:this.dataSource,
+      data:JSON.parse(this.productService.getProducts()||""),
+      displayedColumns:this.displayedColumns,
+      contextButtons:[
+        {
+          name: "Edit",
+          onClick: (product:any) => {
+            this.router.navigate(['/edit/'+product.name]);
+          }
+        },
+        {
+          name: "Delete",
+          onClick: (product:any) => {
+            if(confirm("Are you sure you want to delete!")){
+     
+              localStorage.setItem("products",JSON.stringify(this.productService.deleteProduct(product)));
+              this.loadProducts();
+            }
+          }
+        }
+    ]
+    };
+    
   }
 
   ngOnInit(): void {
@@ -43,29 +70,5 @@ export class ProductItemViewComponent implements OnInit,AfterViewInit {
     } else {
       this.dataSource.data = JSON.parse(localItem);
     }
-    
-  }
-
-  applyFilter(filterValue: string): void {
-  this.dataSource.filter = filterValue.trim().toLowerCase();
-  if (this.dataSource.paginator) {
-    this.dataSource.paginator.firstPage();
-  }
-}
-  
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-  deleteProduct(product:Product){
-    if(confirm("Are you sure you want to delete!")){
-     
-      localStorage.setItem("products",JSON.stringify(this.productService.deleteProduct(product)));
-      this.loadProducts();
-    }
-  }
-  editProduct(product:Product){
-
-  }
-  
+  }  
 }

@@ -7,6 +7,7 @@ import { Product } from '../model/product';
 export class ProductService {
   products!:Product[];
   constructor() { }
+
   getProducts(){
     return localStorage.getItem("products");
   }
@@ -26,4 +27,5 @@ export class ProductService {
   deleteProduct(product:Product){
     return JSON.parse(this.getProducts()||"").filter((prod:Product)=>prod.name!=product.name);
   }
+  
 }

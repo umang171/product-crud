@@ -17,13 +17,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ProductItemViewComponent } from './product-item-view/product-item-view.component';
+import { ViewTableComponent } from './view-table/view-table.component';
 @NgModule({
   declarations: [
     AppComponent,
     ProductsComponent,
     ProductItemsComponent,
     AddProductComponent,
-    ProductItemViewComponent
+    ProductItemViewComponent,
+    ViewTableComponent,
   ],
   imports: [
     BrowserModule,

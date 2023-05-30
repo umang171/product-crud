@@ -26,10 +26,8 @@ export class AddProductComponent implements OnInit {
   constructor(private router: Router,private produtService:ProductService){
   }
   ngOnInit(): void {
-    console.log(this.editIndex,"val");
     if(this.isEdit){
       let product:Product=JSON.parse(localStorage.getItem("products")||"")[this.editIndex];
-      console.log(product,"jslf");
       this.name=product.name;
       this.price=product.price;
       this.quantity=product.quantity;

@@ -28,7 +28,6 @@ ngOnInit() {
   {
     this.editproduct=this.products.filter((prod:Product)=>prod.name==this.activatedRoute.snapshot.paramMap.get('name'))[0];
     this.editIndex=this.products.indexOf(this.editproduct);
-    console.log("edtIdx",this.editIndex);
   }
 }
   productAdd(product:Product){
